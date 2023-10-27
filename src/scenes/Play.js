@@ -15,12 +15,13 @@ class Play extends Phaser.Scene{
         //create cave
         this.cave = this.add.tileSprite(0,0,640,480, "cave").setOrigin(0,0);
 
+        //create border
         this.add.rectangle(0, 0, game.config.width, 15, 0x000000).setOrigin(0 ,0);
         this.add.rectangle(0, game.config.height - 15, game.config.width, 15, 0x000000).setOrigin(0 ,0);
         this.add.rectangle(0, 0, 15, game.config.height, 0x000000).setOrigin(0 ,0);
         this.add.rectangle(game.config.width - 15, 0, 15, game.config.height, 0x000000).setOrigin(0 ,0);
 
-        //create bat
+        //create bat with physics
         p1bat = this.physics.add.sprite(55, game.config.height / 2, "bat").setOrigin(0.5);
         p1bat.setScale(3);
         p1bat.setCollideWorldBounds(true);
@@ -28,6 +29,7 @@ class Play extends Phaser.Scene{
         p1bat.body.setSize(28, 25);
 
         //create animations
+        //flying down
         this.anims.create({
             key: 'fly-down',
             frameRate: 5,
@@ -38,6 +40,7 @@ class Play extends Phaser.Scene{
             })
         })
 
+        //flying up
         this.anims.create({
             key: 'fly-up',
             frameRate: 5,
@@ -48,6 +51,7 @@ class Play extends Phaser.Scene{
             })
         })
 
+        //idling, slower animation rate
         this.anims.create({
             key: 'idle',
             frameRate: 3,
@@ -78,7 +82,25 @@ class Play extends Phaser.Scene{
             })
         })
 
+        //initialize score
+        this.p1score = 0;
 
+        //score config
+        let scoreConfig = {
+            fontFamily: 'Bodoni',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
+
+        //create score
+        this.scoreRight = this.add.text(game.config.width - 116, 15, this.p1Score, scoreConfig);
 
         //create cursors
         cursors = this.input.keyboard.createCursorKeys();
@@ -86,10 +108,11 @@ class Play extends Phaser.Scene{
 
     update(){
         //update
+        //scroll cave png
         this.cave.tilePositionX += 2;
 
         //create vector for bat
-        let batVector = new Phaser.Math.Vector2(0,0)
+        let batVector = new Phaser.Math.Vector2(0,0);
 
 
         //check keyboard input
@@ -102,8 +125,11 @@ class Play extends Phaser.Scene{
         }
 
         //update state of bat
-        p1bat.setVelocity(batVelocity * batVector.x, batVelocity * batVector.y)
+        p1bat.setVelocity(batVelocity * batVector.x, batVelocity * batVector.y);
         batVector.length() ? batMovement = "fly" : batMovement = "idle"
-        p1bat.play(batMovement + "-" + batDirection, true)
+        p1bat.play(batMovement + "-" + batDirection, true);
+
+        //update score
+        this.scoreRight.text = this.p1score;
     }
 }

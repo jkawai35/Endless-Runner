@@ -27,15 +27,18 @@ class Title extends Phaser.Scene{
             fixedWidth: 0
         }
 
+        //in game instructions
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize, "ENDLESS RUNNER", menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 45, "Use ↑↓ to move and dodge the obstacles", menuConfig).setOrigin(0.5);
 
+        //start key
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
     }
 
     update(){
         //update
+        //check s key
         if (Phaser.Input.Keyboard.JustDown(keyS)){
             this.scene.start("playScene");
         }
