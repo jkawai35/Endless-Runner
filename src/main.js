@@ -10,6 +10,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
+            debug: true,
             gravity: {
                 x: 0,
                 y: 0
@@ -30,6 +31,7 @@ const batVelocity = 300;
 
 let keyS, keyR;
 
+let p1Score = 0;
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 let p1bat = null;
