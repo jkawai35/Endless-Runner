@@ -1,6 +1,6 @@
 class Monster extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, velocity){
-        super(scene, game.config.width, Phaser.Math.Between(100, game.config.height - 100), "monster");
+        super(scene, game.config.width, Phaser.Math.Between(50, game.config.height - 35), "monster");
 
         this.parentScene = scene;
 
@@ -9,7 +9,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite{
         this.setVelocityX(velocity);
         this.setImmovable();
         this.setCircle(this.width / 2)
-        this.setOffset(this.width / 20)
+        this.setOffset(-1,this.width / 20)
         this.newMonster = true;
 
 
@@ -27,6 +27,5 @@ class Monster extends Phaser.Physics.Arcade.Sprite{
             this.destroy();
             p1Score += 1;
         }
-
     }
 }

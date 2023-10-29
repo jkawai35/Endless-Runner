@@ -9,11 +9,14 @@ class Play extends Phaser.Scene{
         this.load.spritesheet("bat", "./assets/bat.png", {frameWidth: 30, framHeight: 30});
         this.load.image("monster", "./assets/Monster.png");
         this.load.image("blood", "./assets/Blood.png");
-
     }
 
     create(){
         //create
+
+        //timer
+        this.startTime = new Date();
+        this.timeElapsed;
 
         //monster stats
         this.monsterSpeed = -300;
@@ -117,11 +120,18 @@ class Play extends Phaser.Scene{
         });
 
         //delay time between monster spawns
-        this.time.delayedCall(2500, () => {
+        this.time.delayedCall(3000, () => {
             this.addMonster();
         })
 
-        //timer update
+        //change difficulty based on score
+        this.levelTimer = this.time.addEvent({
+            delay: 1000,
+            callback: this.increaseSpeed,
+            callbackScope: this,
+            loop: true
+        })
+
     }
 
     update(){
@@ -181,7 +191,19 @@ class Play extends Phaser.Scene{
 
         //destroy bat
         p1bat.destroy();
+        
+        this.endTime = new Date();
+        this.timeElapsed = this.startTime.getTime() - this.endTime.getTime();
+        console.log(-(this.timeElapsed / 1000));
+    }
 
-        //change scenes here
+    increaseSpeed(){
+        if (p1Score % 10 == 0 && p1Score != 0){
+            console.log(`level: ${p1Score}, speed: ${this.monsterSpeed}`);
+            if (this.monsterSpeed >= this.monsterMax)
+            {
+                this.monsterSpeed -= 25;
+            }
+        }
     }
 }

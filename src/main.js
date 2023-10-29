@@ -1,7 +1,9 @@
 //Jaren Kawai
 //TITLE HERE
-//Time spent to complete;
+//Time spent to complete:
 //Creative tilt explaination:
+//Sources used:
+//Time elapsed: https://www.joshmorony.com/how-to-create-an-accurate-timer-for-phaser-games/ 
 
 let config = {
     type: Phaser.AUTO,
