@@ -13,7 +13,6 @@ class Title extends Phaser.Scene{
         //cave backgroud
         this.cave = this.add.tileSprite(0,0,640,480, "cave").setOrigin(0,0);
 
-
         //set background
         this.cameras.main.setBackgroundColor(0xDDDDDD);
 

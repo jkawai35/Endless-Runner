@@ -25,7 +25,9 @@ class Monster extends Phaser.Physics.Arcade.Sprite{
         //destroy monster if it gets to the end of the scene
         if (this.x < game.config.width / 10){
             this.destroy();
-            p1Score += 1;
+            if (!p1bat.destroyed){
+                p1Score += 1;
+            }
         }
     }
 }

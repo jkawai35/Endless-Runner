@@ -4,6 +4,7 @@
 //Creative tilt explaination:
 //Sources used:
 //Time elapsed: https://www.joshmorony.com/how-to-create-an-accurate-timer-for-phaser-games/ 
+//Rounding decimal numbers: https://www.tutorialspoint.com/How-to-format-a-number-with-two-decimals-in-JavaScript#:~:text=number%20in%20JavaScript%20%E2%88%92-,Math.,be%20formatted%20with%20two%20decimals. 
 
 let config = {
     type: Phaser.AUTO,
@@ -40,4 +41,5 @@ let p1bat = null;
 let cursors;
 let batDirection = "down";
 let batMovement = "idle";
+let timeSurvived = 0;
 

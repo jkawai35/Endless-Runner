@@ -125,8 +125,9 @@ class Play extends Phaser.Scene{
         })
 
         //change difficulty based on score
+        //check delay time
         this.levelTimer = this.time.addEvent({
-            delay: 1000,
+            delay: 500,
             callback: this.increaseSpeed,
             callbackScope: this,
             loop: true
@@ -165,13 +166,16 @@ class Play extends Phaser.Scene{
     }
 
     addMonster(){
-        let speedChange = Phaser.Math.Between(0, 50);
-        let monster = new Monster(this, this.monsterSpeed - speedChange);
-        this.monsterGroup.add(monster);
+        if (!p1bat.destroyed){
+            let speedChange = Phaser.Math.Between(0, 50);
+            let monster = new Monster(this, this.monsterSpeed - speedChange);
+            this.monsterGroup.add(monster);
+        }
     }
 
     batCollide(){
         p1bat.destroyed = true;
+        this.cameras.main.shake(2500, 0.0075);
         let bloodManager = this.add.particles("blood");
         let bloodSplatter = bloodManager.createEmitter({
             alpha: {start: 1, end: 0},
@@ -192,12 +196,20 @@ class Play extends Phaser.Scene{
         //destroy bat
         p1bat.destroy();
         
+        //calculate elasped time
         this.endTime = new Date();
-        this.timeElapsed = this.startTime.getTime() - this.endTime.getTime();
-        console.log(-(this.timeElapsed / 1000));
+        this.timeElapsed = -((this.startTime.getTime() - this.endTime.getTime()) / 1000);
+        timeSurvived = Math.round(this.timeElapsed * 100) / 100;
+
+        //allow animations to play first and then end game
+        this.time.delayedCall(2500, () => {
+            this.scene.start("gameOver");
+        })
     }
 
     increaseSpeed(){
+        //increase score every 10 points
+        //can also check based on dificulty level
         if (p1Score % 10 == 0 && p1Score != 0){
             console.log(`level: ${p1Score}, speed: ${this.monsterSpeed}`);
             if (this.monsterSpeed >= this.monsterMax)
