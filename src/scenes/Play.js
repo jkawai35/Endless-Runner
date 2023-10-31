@@ -126,12 +126,15 @@ class Play extends Phaser.Scene{
 
         //change difficulty based on score
         //check delay time
+        /*
         this.levelTimer = this.time.addEvent({
             delay: 500,
             callback: this.increaseSpeed,
             callbackScope: this,
             loop: true
         })
+        */
+       this.increaseSpeed();
 
     }
 
@@ -211,11 +214,12 @@ class Play extends Phaser.Scene{
         //increase score every 10 points
         //can also check based on dificulty level
         if (p1Score % 10 == 0 && p1Score != 0){
-            console.log(`level: ${p1Score}, speed: ${this.monsterSpeed}`);
             if (this.monsterSpeed >= this.monsterMax)
             {
                 this.monsterSpeed -= 25;
             }
+            console.log(`score: ${p1Score}, speed: ${this.monsterSpeed}`);
         }
+        this.time.delayedCall(1000, this.increaseSpeed, null, this)
     }
 }

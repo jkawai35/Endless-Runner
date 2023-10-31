@@ -19,6 +19,8 @@ class GameOver extends Phaser.Scene{
             padding: {
                 top: 7,
                 bottom: 7,
+                left: 5,
+                right: 5
             },
             fixedWidth: 0
         }
