@@ -23,7 +23,7 @@ let config = {
     render: {
         pixelArt: true
     },
-    scene: [Title, Play, GameOver]
+    scene: [Title, Play, Credits, GameOver]
 }
 
 //new Phaser game
@@ -32,7 +32,7 @@ let game = new Phaser.Game(config);
 //global variables
 const batVelocity = 300;
 
-let keyS, keyR;
+let keyS, keyR, keyC, keyESC;
 
 let p1Score = 0;
 let topSurvive = 0;
