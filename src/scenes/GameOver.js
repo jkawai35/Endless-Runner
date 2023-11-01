@@ -5,6 +5,7 @@ class GameOver extends Phaser.Scene{
 
     preload(){
         //preload
+        this.load.image("cave", "./assets/cave.png");
     }
 
     create(){
@@ -28,10 +29,15 @@ class GameOver extends Phaser.Scene{
         //create key code for restart
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
+        //set cave picture
+        this.cave = this.add.tileSprite(0,0,640,480, "cave").setOrigin(0,0);
+
         //display stats, make new config settings
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize, "GAME OVER", endConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 45, "You survived for: " + timeSurvived + " seconds", endConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 90, "Monsters dodged: " + p1Score, endConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 135, "Best Survival Time: " + topSurvive + " seconds", endConfig).setOrigin(0.5);
+
 
 
     }
@@ -41,6 +47,10 @@ class GameOver extends Phaser.Scene{
         //check if user wants to restart
         if (Phaser.Input.Keyboard.JustDown(keyR)){
             this.scene.start("playScene");
+            p1Score = 0;
         }
+
+        //scroll cave
+        this.cave.tilePositionX += 2;
     }
 }

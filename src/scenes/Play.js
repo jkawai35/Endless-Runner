@@ -125,15 +125,6 @@ class Play extends Phaser.Scene{
         })
 
         //change difficulty based on score
-        //check delay time
-        /*
-        this.levelTimer = this.time.addEvent({
-            delay: 500,
-            callback: this.increaseSpeed,
-            callbackScope: this,
-            loop: true
-        })
-        */
        this.increaseSpeed();
 
     }
@@ -206,6 +197,9 @@ class Play extends Phaser.Scene{
 
         //allow animations to play first and then end game
         this.time.delayedCall(2500, () => {
+            if (this.timeElapsed > topSurvive){
+                topSurvive = Math.round(this.timeElapsed * 100) / 100;
+            }
             this.scene.start("gameOver");
         })
     }
@@ -213,13 +207,9 @@ class Play extends Phaser.Scene{
     increaseSpeed(){
         //increase score every 10 points
         //can also check based on dificulty level
-        if (p1Score % 10 == 0 && p1Score != 0){
-            if (this.monsterSpeed >= this.monsterMax)
-            {
-                this.monsterSpeed -= 25;
-            }
-            console.log(`score: ${p1Score}, speed: ${this.monsterSpeed}`);
-        }
+            this.monsterSpeed = -(300 + Math.floor(p1Score / 10) * 25)
+        
+        //call itself every second and check score
         this.time.delayedCall(1000, this.increaseSpeed, null, this)
     }
 }
