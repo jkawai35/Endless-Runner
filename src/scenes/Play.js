@@ -14,10 +14,20 @@ class Play extends Phaser.Scene{
         //load sounds
         this.load.audio("sfx_woosh", "./assets/mixkit-arrow-whoosh-1491.wav");
         this.load.audio("sfx_game_over", "./assets/mixkit-falling-game-over-1942.wav");
+        this.load.audio("spooky", "./assets/spooky.wav");
     }
 
     create(){
         //create
+
+        //add sound
+        this.music = this.sound.add("spooky", {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            loop: true,
+        });
+        this.music.play();
 
         //timer
         this.startTime = new Date();
@@ -189,6 +199,15 @@ class Play extends Phaser.Scene{
         p1bat.destroyed = true;
         this.cameras.main.shake(2500, 0.0075);
         this.sound.play("sfx_game_over");
+
+        //audio change
+        this.tweens.add({
+            targets: this.music,
+            volume: 0,
+            ease: 'Linear',
+            duration: 2000,
+            rate: 0.5,
+        });
 
         //create explosion
         let bloodManager = this.add.particles("blood");
