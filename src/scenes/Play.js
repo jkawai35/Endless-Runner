@@ -5,10 +5,15 @@ class Play extends Phaser.Scene{
 
     preload(){
         //preload
+        //load images and sprites
         this.load.image("cave", "./assets/cave.png");
         this.load.spritesheet("bat", "./assets/bat.png", {frameWidth: 30, framHeight: 30});
         this.load.image("monster", "./assets/Monster.png");
         this.load.image("blood", "./assets/Blood.png");
+
+        //load sounds
+        this.load.audio("sfx_woosh", "./assets/mixkit-arrow-whoosh-1491.wav");
+        this.load.audio("sfx_game_over", "./assets/mixkit-falling-game-over-1942.wav");
     }
 
     create(){
@@ -17,6 +22,10 @@ class Play extends Phaser.Scene{
         //timer
         this.startTime = new Date();
         this.timeElapsed;
+
+        //keycode
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
         //monster stats
         this.monsterSpeed = -300;
@@ -153,6 +162,14 @@ class Play extends Phaser.Scene{
             p1bat.setVelocity(batVelocity * batVector.x, batVelocity * batVector.y);
             batVector.length() ? batMovement = "fly" : batMovement = "idle"
             p1bat.play(batMovement + "-" + batDirection, true);
+
+            //play sound
+            if (Phaser.Input.Keyboard.JustDown(keyUP)){
+                this.sound.play("sfx_woosh");
+            }
+            else if (Phaser.Input.Keyboard.JustDown(keyDOWN)){
+                this.sound.play("sfx_woosh");
+            }
         }
 
         //update score
@@ -160,6 +177,7 @@ class Play extends Phaser.Scene{
     }
 
     addMonster(){
+        //make new monsters add to group if bat is alive
         if (!p1bat.destroyed){
             let speedChange = Phaser.Math.Between(0, 50);
             let monster = new Monster(this, this.monsterSpeed - speedChange);
@@ -170,6 +188,9 @@ class Play extends Phaser.Scene{
     batCollide(){
         p1bat.destroyed = true;
         this.cameras.main.shake(2500, 0.0075);
+        this.sound.play("sfx_game_over");
+
+        //create explosion
         let bloodManager = this.add.particles("blood");
         let bloodSplatter = bloodManager.createEmitter({
             alpha: {start: 1, end: 0},
@@ -206,8 +227,7 @@ class Play extends Phaser.Scene{
 
     increaseSpeed(){
         //increase score every 10 points
-        //can also check based on dificulty level
-            this.monsterSpeed = -(300 + Math.floor(p1Score / 10) * 25)
+            this.monsterSpeed = -(300 + Math.floor(p1Score / 10) * 40)
         
         //call itself every second and check score
         this.time.delayedCall(1000, this.increaseSpeed, null, this)

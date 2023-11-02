@@ -46,6 +46,7 @@ class GameOver extends Phaser.Scene{
         //update
         //check if user wants to restart
         if (Phaser.Input.Keyboard.JustDown(keyR)){
+            this.sound.play("sfx_select");
             this.scene.start("playScene");
             p1Score = 0;
         }

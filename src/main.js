@@ -32,7 +32,7 @@ let game = new Phaser.Game(config);
 //global variables
 const batVelocity = 300;
 
-let keyS, keyR, keyC, keyESC;
+let keyS, keyR, keyC, keyESC, keyUP, keyDOWN;
 
 let p1Score = 0;
 let topSurvive = 0;

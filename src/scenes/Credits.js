@@ -46,6 +46,7 @@ class Credits extends Phaser.Scene{
         //update
         //check esc key
         if (Phaser.Input.Keyboard.JustDown(keyESC)){
+            this.sound.play("sfx_back");
             this.scene.start("titleScene");
         }
     }

@@ -6,6 +6,10 @@ class Title extends Phaser.Scene{
     preload(){
         //preload
         this.load.image("cave", "./assets/cave.png");
+
+        //load all sounds
+        this.load.audio("sfx_select", "./assets/mixkit-arcade-mechanical-bling-210.wav");
+        this.load.audio("sfx_back", "./assets/mixkit-arcade-retro-changing-tab-206.wav");
     }
 
     create(){
@@ -52,9 +56,11 @@ class Title extends Phaser.Scene{
 
         //check s key
         if (Phaser.Input.Keyboard.JustDown(keyS)){
+            this.sound.play("sfx_select");
             this.scene.start("playScene");
         }
         else if (Phaser.Input.Keyboard.JustDown(keyC)){
+            this.sound.play("sfx_select");
             this.scene.start("creditScene");
         }
     }
