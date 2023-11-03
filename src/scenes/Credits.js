@@ -29,7 +29,7 @@ class Credits extends Phaser.Scene{
             fixedWidth: 0
         }
 
-        //in game instructions
+        //credits
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - 45, "Fright or Flight - Credits", credConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize, "Visual Assets: Jaren Kawai", credConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 45, "Audio SFX: mixkit.co", credConfig).setOrigin(0.5);
