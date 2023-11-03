@@ -10,6 +10,7 @@ class Play extends Phaser.Scene{
         this.load.spritesheet("bat", "./assets/bat.png", {frameWidth: 30, framHeight: 30});
         this.load.image("monster", "./assets/Monster.png");
         this.load.image("blood", "./assets/Blood.png");
+        this.load.image("jumper", "./assets/jumper.png");
 
         //load sounds
         this.load.audio("sfx_woosh", "./assets/mixkit-arrow-whoosh-1491.wav");
@@ -20,7 +21,9 @@ class Play extends Phaser.Scene{
     create(){
         //create
 
-        //add sound
+        difficulty = 0;
+
+        //add looping music
         this.music = this.sound.add("spooky", {
             mute: false,
             volume: 1,
@@ -40,7 +43,6 @@ class Play extends Phaser.Scene{
         //monster stats
         this.monsterSpeed = -300;
         this.monsterMax = -1200;
-        this.difficulty = 0;
 
         //create cave
         this.cave = this.add.tileSprite(0,0,640,480, "cave").setOrigin(0,0);
@@ -127,6 +129,13 @@ class Play extends Phaser.Scene{
             fixedWidth: 100
         }
 
+        this.jumperChoice = this.time.addEvent({
+            delay: 1000,
+            callback: this.jumperChance,
+            callbackScope: this,
+            loop: true
+        });
+
         //create score
         this.scoreRight = this.add.text(game.config.width - 116, 15, p1Score, scoreConfig);
 
@@ -135,6 +144,10 @@ class Play extends Phaser.Scene{
 
         //create monster group
         this.monsterGroup = this.add.group({
+            runChildUpdate: true
+        });
+
+        this.jumperGroup = this.add.group({
             runChildUpdate: true
         });
 
@@ -157,6 +170,7 @@ class Play extends Phaser.Scene{
         let batVector = new Phaser.Math.Vector2(0,0);
 
         this.physics.world.collide(p1bat, this.monsterGroup, this.batCollide, null, this);
+        this.physics.world.collide(p1bat, this.jumperGroup, this.jumperCollide, null, this);
 
         //check if player is alive
         if(!p1bat.destroyed){
@@ -192,6 +206,14 @@ class Play extends Phaser.Scene{
             let speedChange = Phaser.Math.Between(0, 50);
             let monster = new Monster(this, this.monsterSpeed - speedChange);
             this.monsterGroup.add(monster);
+        }
+    }
+
+    addJumper(){
+        //make new jumpers add to group if bat is alive
+        if (!p1bat.destroyed){
+            let jumper = new Jumper(this, -100);
+            this.jumperGroup.add(jumper);
         }
     }
 
@@ -244,11 +266,82 @@ class Play extends Phaser.Scene{
         })
     }
 
+    jumperCollide(){
+        p1bat.destroyed = true;
+        this.cameras.main.shake(2500, 0.0075);
+        this.sound.play("sfx_game_over");
+
+        //audio change
+        this.tweens.add({
+            targets: this.music,
+            volume: 0,
+            ease: 'Linear',
+            duration: 2000,
+            rate: 0.5,
+        });
+
+        //create explosion
+        let bloodManager = this.add.particles("blood");
+        let bloodSplatter = bloodManager.createEmitter({
+            alpha: {start: 1, end: 0},
+            scale: {start: .75, end: 0},
+            speed: {min: -150, max: 150},
+            lifespan: 4000,
+            blendMode: "ADD"
+        });
+
+        let batBounds = p1bat.getBounds();
+        bloodSplatter.setEmitZone({
+            source: new Phaser.Geom.Rectangle(batBounds.x, batBounds.y, batBounds.width, batBounds.height),
+            type: "edge",
+            quantity: 500
+        });
+        bloodSplatter.explode(500);
+
+        //destroy bat
+        p1bat.destroy();
+        
+        //calculate elasped time
+        this.endTime = new Date();
+        this.timeElapsed = -((this.startTime.getTime() - this.endTime.getTime()) / 1000);
+        timeSurvived = Math.round(this.timeElapsed * 100) / 100;
+
+        //allow animations to play first and then end game
+        this.time.delayedCall(2500, () => {
+            if (this.timeElapsed > topSurvive){
+                topSurvive = Math.round(this.timeElapsed * 100) / 100;
+            }
+            this.scene.start("gameOver");
+        })
+    }
+
     increaseSpeed(){
         //increase score every 10 points
-            this.monsterSpeed = -(300 + Math.floor(p1Score / 10) * 40)
-        
+        this.monsterSpeed = -(300 + Math.floor(p1Score / 10) * 25)
+
         //call itself every second and check score
         this.time.delayedCall(1000, this.increaseSpeed, null, this)
+    }
+
+    jumperChance(){
+        //update difficulty
+        difficulty += 1;
+        
+        //generate random number to see if jumper will spawn
+        this.roll = Phaser.Math.Between(chance,10);
+        this.count = 0;
+
+        //check if rng produced a 10 and difficulty is divisible by 5
+        if (this.roll == 10 && difficulty % 5 == 0 && this.count == 0)
+        {
+            this.addJumper();
+            this.count += 1;
+        }   
+        if (difficulty % 20 == 0 && difficulty != 0){
+            //increase chance of spawning jumper
+            if (chance < 10){
+                chance += 1;
+            }
+        }     
     }
 }

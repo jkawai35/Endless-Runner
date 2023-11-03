@@ -37,7 +37,7 @@ class Title extends Phaser.Scene{
         }
 
         //in game instructions
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize, "ENDLESS RUNNER", menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize, "Fright or Flight", menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 45, "Use ↑↓ to move and dodge the monsters!", menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 90, "Press S to start!", menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 135, "Press C for credits", menuConfig).setOrigin(0.5);

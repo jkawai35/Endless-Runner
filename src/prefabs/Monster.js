@@ -16,7 +16,7 @@ class Monster extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
-        //create new barrier when previous one passes certain x value
+        //create new monster when previous one passes certain x value
         if(this.newMonster && this.x < game.config.width / 2){
             this.parentScene.addMonster(this.parent, this.velocity);
             this.newMonster = false;
