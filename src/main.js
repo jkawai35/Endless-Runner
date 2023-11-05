@@ -1,8 +1,8 @@
 //Jaren Kawai
 //Fright or Flight
-//Time spent to complete: 20 - 22 hours
+//Time spent to complete: 22 hours
 
-//Technical tilt explaination: One of the aspects of the game that I was proud of was increasing the difficulty of the
+//Creative tilt explaination: One of the aspects of the game that I was proud of was increasing the difficulty of the
 //game based on score rather than time. The hardest part was getting the difficulty to update as soon as the player had a score
 //divisable by 10 because if I coded based on Nathan's examples, the difficulty would update late and would often skip difficulty
 //levels because the players score would no longer be divisable by 10 by the time the callback function executed. There is also
@@ -12,7 +12,7 @@
 //when I didn't want them too. Chance to spawn at start - 25%, chance to spawn at 70 second mark - 100%. Monsters have chance to spawn
 //every 5 seconds.
 
-//Creative tilt explaination: I haven't really designed my own assets for games before, so I was rather proud of the
+//I also haven't really designed my own assets for games before, so I was rather proud of the
 //pixel art that I was able to do for this project despite the fact that it may not be the best. I also wanted to try and
 //make my own music for this project, so I produced the looping background music myself. I typically work with electronic and pop music
 //so although I was out of my confort zone genre wise for this project, I still wanted to get practice creating music for games.
@@ -28,7 +28,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
             gravity: {
                 x: 0,
                 y: 0

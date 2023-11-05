@@ -35,13 +35,10 @@ class GameOver extends Phaser.Scene{
 
         //display stats, make new config settings
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - 45, "GAME OVER", endConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize , "You survived for: " + timeSurvived + " seconds", endConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize, "You survived for: " + timeSurvived + " seconds", endConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 45, "Monsters dodged: " + p1Score, endConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 90, "Best Survival Time: " + topSurvive + " seconds", endConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize + 135, "Press R to restart or M for main menu", endConfig).setOrigin(0.5);
-
-
-
     }
 
     update(){

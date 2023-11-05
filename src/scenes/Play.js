@@ -55,6 +55,7 @@ class Play extends Phaser.Scene{
 
         //create bat with physics
         p1bat = this.physics.add.sprite(55, game.config.height / 2, "bat").setOrigin(0.5);
+
         p1bat.setScale(3);
         p1bat.setCollideWorldBounds(true);
         p1bat.setImmovable();
